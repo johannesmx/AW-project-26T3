@@ -16,7 +16,9 @@ export function Home() {
         return (
             <Col md={3}>
                 <Card className='mb-4'>
-                    <Card.Img src={"images/" + item.image} style={ImageStyle} variant='top' />
+                    <div className='ratio ratio-1x1'>
+                    <Card.Img src={"images/" + item.image}  variant='top' className='object-fit-cover' />
+                    </div>
                     <Card.Body>
                         <Card.Title>{item.name.substring(0,22) + '...'}</Card.Title>
                         <p>{ item.description.substring(0,32) + '...' }</p>
