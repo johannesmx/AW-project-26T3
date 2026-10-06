@@ -1,27 +1,32 @@
-# Advanced Web Example Project
-This project is an example website project for the Advanced Web class in 2026 Term 3.
-## How to use this project
-You will need to be signed in into your Github account. Then:
-#### Fork this project
-See image below
-![Code toolbar](docs/images/Fork.png)
-#### Install dependencies
-In your terminal, make sure you are at the root directory of the project, run:
-```
-npm install
-```
-#### Run the project
-After installing dependencies, you can start the project using the following command in the terminal
-```
-npm run dev
-```
----
-## Resources used in this project
-- React framework [React Website](https://react.dev)
-- Vite build framework [Vite Website](https://vite.dev)
-- Bootstrap UI framework [Bootstrap Website](https://getbootstrap.com)
-- React Bootstrap (to make Bootstrap work within a React framework) [React Bootstrap Website](https://react-bootstrap.netlify.app/)
-- React Router for routing between views [React Router Website](https://reactrouter.com/)
+# React + TypeScript + Vite
 
-Tutorials will refer to documentation section of each resource where necessary.
+This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+
+## React Compiler
+
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the Oxlint configuration
+
+If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+
+```json
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "oxc"],
+  "options": {
+    "typeAware": true
+  },
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  }
+}
+```
+
+See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
