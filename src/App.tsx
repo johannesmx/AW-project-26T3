@@ -6,6 +6,8 @@ import { Home } from './views/Home'
 import { About } from './views/About'
 import { Contact } from './views/Contact'
 import { Detail } from './views/Detail'
+import { Login } from './views/Login'
+import { Register } from './views/Register'
 // components
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
@@ -21,6 +23,8 @@ function App() {
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
           <Route path="product/:productid" element={<Detail />} />
         </Routes>
       </Container>
