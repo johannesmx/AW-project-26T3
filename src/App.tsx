@@ -12,12 +12,12 @@ import { Register } from './views/Register'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
 // logo
-import logo from './assets/logo-1933884_1280.png'
+import logo from './assets/Vlogo.png'
 
 function App() {
   return (
     <>
-      <Header title="Project" image={logo} />
+      <Header title="Verdictly" image={logo} />
       <Container fluid>
         <Routes>
           <Route index element={<Home />} />
