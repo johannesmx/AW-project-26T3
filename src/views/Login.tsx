@@ -4,21 +4,25 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
-import {useState,useEffect} from 'react'
+import { useState, useEffect } from 'react'
+import ValidationStates from '../interfaces/ValidationStates'
 
 export function Login() {
-    const[email,setEmail] = useState<string | undefined >(undefined)
-    const[validEmail,setValidEmail] = useState<boolean | undefined>(undefined)
+    const [email, setEmail] = useState<string>("")
+    const [validEmail, setValidEmail] = useState<ValidationStates>(ValidationStates.NONE)
+    const [etouched, setEtouched] = useState<boolean>(false)
 
-    useEffect( () => {
-        if(email && email.length > 3) {
-            setValidEmail(true)
+    const [password,setPassword] = useState<string>("")
+
+    useEffect(() => {
+        if(email.length > 0) {setEtouched(true)}
+        if (email.length > 0 && email.includes('@') && email.includes('.')) {
+            setValidEmail(ValidationStates.VALID)
         }
-        else if(email !== undefined ){
-            setValidEmail(false)
+        else if(etouched == true ){
+            setValidEmail(ValidationStates.INVALID)
         }
-        console.log(email)
-    },[email])
+    }, [email])
 
     return (
         <Container>
@@ -28,13 +32,13 @@ export function Login() {
                         <h2>Sign in to your account</h2>
                         <Form.Group className="mb-3" controlId="loginEmail">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control 
+                            <Form.Control
                                 required
-                                type="email" 
-                                placeholder="name@example.com" 
+                                type="email"
+                                placeholder="name@example.com"
                                 value={email}
-                                onChange={ (event) => setEmail(event.target.value)}
-                                className={ (validEmail===undefined) ? "is-invalid" : (validEmail === false) ? "is-invalid" : "is-valid"}
+                                onChange={(event) => setEmail(event.target.value)}
+                                className={(validEmail === ValidationStates.NONE) ? "" : (validEmail === ValidationStates.VALID) ? "is-valid" : "is-invalid"}
                             />
                             <Form.Control.Feedback type="invalid">
                                 Please provide a valid email address
@@ -42,7 +46,12 @@ export function Login() {
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="loginPassword">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Minimum 8 characters" />
+                            <Form.Control 
+                                type="password" 
+                                placeholder="Minimum 8 characters" 
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                            />
                         </Form.Group>
                         <div className="d-grid gap-2">
                             <Button variant='primary' type="button">Login</Button>
