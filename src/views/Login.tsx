@@ -7,16 +7,17 @@ import Form from 'react-bootstrap/Form'
 import {useState,useEffect} from 'react'
 
 export function Login() {
-    const[email,setEmail] = useState<string | undefined >()
-    const[validEmail,setValidEmail] = useState<boolean | undefined>()
+    const[email,setEmail] = useState<string | undefined >(undefined)
+    const[validEmail,setValidEmail] = useState<boolean | undefined>(undefined)
 
     useEffect( () => {
         if(email && email.length > 3) {
             setValidEmail(true)
         }
-        else {
+        else if(email !== undefined ){
             setValidEmail(false)
         }
+        console.log(email)
     },[email])
 
     return (
@@ -33,7 +34,7 @@ export function Login() {
                                 placeholder="name@example.com" 
                                 value={email}
                                 onChange={ (event) => setEmail(event.target.value)}
-                                className={ (validEmail && validEmail===true) ? "is-valid" : (validEmail === false) ? "is-invalid" : ""}
+                                className={ (validEmail===undefined) ? "is-invalid" : (validEmail === false) ? "is-invalid" : "is-valid"}
                             />
                             <Form.Control.Feedback type="invalid">
                                 Please provide a valid email address
