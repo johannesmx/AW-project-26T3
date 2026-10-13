@@ -1,7 +1,8 @@
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
-import { Link, NavLink } from 'react-router'
+import Form from 'react-bootstrap/Form';
+import { NavLink } from 'react-router'
 
 interface HeaderProps {
     title: string
@@ -16,6 +17,9 @@ export function Header( props:HeaderProps ) {
                    <img src={props.image} style={{width:"80px"}} /> 
                    { props.title }
                 </Navbar.Brand>
+                <Form inline>
+                    <Form.Control type="search"/>
+                </Form>
                 <Navbar.Toggle aria-controls="main-nav" />
                 <Navbar.Collapse id="main-nav">
                     <Nav className="ms-auto">
