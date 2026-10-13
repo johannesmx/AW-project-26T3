@@ -1,0 +1,145 @@
+[
+  {
+    "id": 1,
+    "name": "Yoga Mat",
+    "description": "Non-slip mat for yoga and stretching",
+    "price": 25,
+    "category": 1,
+    "brand": "Adidas",
+    "image": "item01.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Nike Trend Oversized Crop Sweatshirt",
+    "description": "Level up your look with this women\\s Hoodie from Nike. Nike has changed the game since 1972!",
+    "price": 128.99,
+    "category": 3,
+    "image":"item02.webp"
+  },
+  {
+    "id": 3,
+    "name": "Sports T-Shirt",
+    "description": "Breathable dry-fit shirt for workouts",
+    "price": 19.99,
+    "category": 3,
+    "brand": "Under Armour",
+    "image": "item03.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Soccer Shin Guards",
+    "description": "Designed to take the impacts of the game",
+    "price": 19.99,
+    "category": 1,
+    "brand": "Nike",
+    "image": "item05.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Football",
+    "description": "Standard size 5 football for matches",
+    "price": 29.99,
+    "category": 1,
+    "brand": "Puma",
+    "image": "item06.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Nike Free Metcon 7",
+    "description": "Flex your performance in the Free Metcon 7. Our most versatile training shoe gets updated with enhanced midfoot containment. Of course, we kept our famed Nike Free technology for a quick and powerful feel. The flexible forefoot and stable heel easily let you switch from dynamic to strength-based movements.",
+    "price": 133,
+    "category": 2,
+    "brand": "Nike",
+    "image": "item07.jpg"
+  },
+  {
+    "id": 8,
+    "name": "ASICS Training Joggers",
+    "description": "The men\\s ASICS SportStyle Woven Training Jogger brings the same colourblock aesthetic as the rest of this JD Sports exclusive set to a functional woven pant that works across training days and casual wear with equal ease. Built from a smooth woven fabric with an elasticated drawstring waist and tapered leg",
+    "price": 216.99,
+    "category": 2,
+    "brand": "Asics",
+    "image":  "item08.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Sportswear Club Fleece Jogger Pants",
+    "description": "Clean style meets casual comfort with these classic joggers. Midweight brushed fleece feels extra soft on the inside and smooth on the outside.\\n\\nStandard fit provides a relaxed feel through the seat and thighs, tapering towards the ankle. An elastic waistband and external drawcord offer a comfortable, adjustable fit at the waist. Snap closure back welt pocket and hand pockets accommodate most phones.",
+    "price": 52.5,
+    "category": 3,
+    "brand": "Nike",
+    "image": "item09.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Running Shorts\\n",
+    "description": "Lightweight breathable shorts for running",
+    "price": 19.99,
+    "category": 3,
+    "brand": "Under Armour",
+    "image": "item10.webp"
+  },
+  {
+    "id": 11,
+    "name": "Resistance Bands Set",
+    "description": "Elastic bands for strength and rehab training",
+    "price": 18.5,
+    "category": 1,
+    "brand": "Decathlon",
+    "image": "item20.webp"
+  },
+  {
+    "id": 12,
+    "name": "Basketball",
+    "description": "Indoor/outdoor durable basketball",
+    "price": 35.99,
+    "category": 1,
+    "brand": "Spalding",
+    "image": "item12.jpg"
+  },
+  {
+    "id": 13,
+    "name": "Tennis Racket\\n",
+    "description": "Lightweight racket for beginners and intermediates",
+    "price": 79.99,
+    "category": 1,
+    "brand": "Wilson",
+    "image": "item13.jpg"
+  },
+  {
+    "id": 14,
+    "name": "Gym Gloves",
+    "description": "Protective gloves for weightlifting",
+    "price": 15.99,
+    "category": 1,
+    "brand": "Adidas",
+    "image": "item14.jpg"
+  },
+  {
+    "id": 15,
+    "name": "Cycling Helmet\\n",
+    "description": "Safety helmet for road and mountain cycling",
+    "price": 49.99,
+    "category": 1,
+    "brand": "Giro",
+    "image": "item15.jpg"
+  },
+  {
+    "id": 16,
+    "name": "Swim Goggles",
+    "description": "Anti-fog goggles for swimming training",
+    "price": 14.5,
+    "category": 1,
+    "brand": "Speedo",
+    "image": "item16.webp"
+  },
+  {
+    "id": 17,
+    "name": "Mouthguard",
+    "description": "Protect your mouth from unexpected punches",
+    "price": 178,
+    "category": 1,
+    "brand": "Everlast",
+    "image": "item17.jpg"
+  }
+]
