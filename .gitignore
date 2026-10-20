@@ -25,3 +25,6 @@ dist-ssr
 
 # backend
 backend/vendor
+
+#.devcontainer
+.devcontainer/.env
