@@ -1,0 +1,19 @@
+{
+    "name": "php/review",
+    "description": "a sample php api for review project",
+    "type": "project",
+    "require": {
+        "firebase/php-jwt": "^7.2",
+        "vlucas/phpdotenv": "^5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Php\\Review\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jmx"
+        }
+    ]
+}
