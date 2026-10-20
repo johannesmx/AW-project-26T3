@@ -1,22 +1,36 @@
-version: '3.8'
-
-services: 
+services:
   app:
     build:
-      context: .
-      dockerfile: Dockerfile
-
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
     volumes:
-      - ../..:/workspaces:cached
-
-    # Overrides default command so things don't shut down after the process ends.
+      - ..:/workspace:cached
     command: sleep infinity
+    working_dir: /workspace
+    ports:
+      - "5173:5173"
+    depends_on:
+      php:
+        condition: service_started
 
-    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
-    network_mode: service:db
-
-    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally. 
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
+  php:
+    build:
+      context: ..
+      dockerfile: .devcontainer/php/Dockerfile
+    volumes:
+      - ..:/var/www/project:cached
+    working_dir: /var/www/project
+    expose:
+      - "80"
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_DATABASE: ${DB_DATABASE:-react_app}
+      DB_USERNAME: ${DB_USERNAME:-app_user}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .devcontainer/.env}
+    depends_on:
+      db:
+        condition: service_healthy
 
   db:
     image: mariadb:10.4
@@ -24,21 +38,33 @@ services:
     volumes:
       - mariadb-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: mariadb
-      MYSQL_DATABASE: mariadb
-      MYSQL_USER: mariadb
-      MYSQL_PASSWORD: mariadb
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD in .devcontainer/.env}
+      MYSQL_DATABASE: ${DB_DATABASE:-react_app}
+      MYSQL_USER: ${DB_USERNAME:-app_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .devcontainer/.env}
+    healthcheck:
+      test:
+        - CMD
+        - healthcheck.sh
+        - --connect
+        - --innodb_initialized
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
 
-    # Add "forwardPorts": ["3306"] to **devcontainer.json** to forward MariaDB locally.
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
   pma:
     image: phpmyadmin:5.0
+    restart: unless-stopped
     environment:
-      - PMA_HOST=db
+      PMA_HOST: db
+      PMA_PORT: "3306"
+      UPLOAD_LIMIT: 64M
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
-      - 8082:80
-  
+      - "8082:80"
+
 volumes:
   mariadb-data:

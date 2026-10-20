@@ -1,23 +1,44 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/php-mariadb
 {
-	"name": "PHP & MariaDB",
+	"name": "React PHP MariaDB Development",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "app",
-	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-
+	"workspaceFolder": "/workspace",
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
-
-	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
-	"forwardPorts": [8080, 3306, 8082],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
-
+	"forwardPorts": [
+		5173,
+		8082
+	],
+	"portsAttributes": {
+		"5173": {
+			"label": "React Frontend",
+			"onAutoForward": "openBrowser",
+			"visibility": "private"
+		},
+		"8082": {
+			"label": "phpMyAdmin",
+			"onAutoForward": "silent",
+			"visibility": "private"
+		}
+	},
+	"postCreateCommand": "npm ci && composer install --working-dir=backend && (npm run dev -- --host 0.0.0.0 > /tmp/vite.log 2>&1 &)",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"dbaeumer.vscode-eslint",
+				"esbenp.prettier-vscode",
+				"bmewburn.vscode-intelephense-client",
+				"xdebug.php-debug"
+			]
+		}
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/node:2": {}
+	}
 	// Configure tool-specific properties.
 	// "customizations": {},
-
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
 }
