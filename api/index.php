@@ -1,3 +1,0 @@
-// router for api
-<?php
-?>
