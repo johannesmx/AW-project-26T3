@@ -3,6 +3,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import {Link} from 'react-router'
 export function Login() {
     return (
         <Container>
@@ -20,6 +21,9 @@ export function Login() {
                         </Form.Group>
                         <div className="d-grid gap-2">
                             <Button variant='primary' type="button">Login</Button>
+                        </div>
+                        <div className="text-center mt-4">
+                            <p>Don't have an account? <Link to="/register">Sign up for an account</Link></p>
                         </div>
                     </Form>
                 </Col>
