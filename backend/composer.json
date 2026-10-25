@@ -1,6 +1,6 @@
 {
-    "name": "jmx/php-api",
-    "description": "a simple sample php api for use with react frontend",
+    "name": "php/review",
+    "description": "a sample php api for review project",
     "type": "project",
     "require": {
         "firebase/php-jwt": "^7.2",
@@ -8,12 +8,12 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "Php\\Review\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "johannes"
+            "name": "jmx"
         }
     ]
 }

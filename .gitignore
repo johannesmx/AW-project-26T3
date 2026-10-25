@@ -28,3 +28,9 @@ backend/.env
 *.njsproj
 *.sln
 *.sw?
+
+# backend
+backend/vendor
+
+#.devcontainer
+.devcontainer/.env
