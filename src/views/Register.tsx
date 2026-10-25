@@ -29,7 +29,7 @@ export function Register() {
     },[userName,email,password])
 
     // function to return bootstrap classname based on validation rules
-    const checkState = (target) => {
+    const checkState = (target:string | undefined) => {
         if(target === undefined) {
             return null
         }
