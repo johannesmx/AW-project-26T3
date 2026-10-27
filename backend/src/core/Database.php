@@ -5,8 +5,7 @@ use \mysqli;
 use \Exception;
 
 class Database {
-    public function __construct() {
-
-    }
+    
+}
     
 ?>
