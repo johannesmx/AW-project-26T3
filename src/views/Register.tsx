@@ -23,7 +23,7 @@ export function Register() {
     const[userName,setUserName] = useState<string | undefined>(undefined)
     //email
     const[email,setEmail] = useState<string | undefined>(undefined)
-    //username
+    //password
     const[password,setPassword] = useState<string | undefined>(undefined)
 
     useEffect( () => {
@@ -45,6 +45,17 @@ export function Register() {
             setValidForm({...validForm, email: false  })
         }
     }, [email])
+
+    useEffect( () => {
+        if( password === undefined ) { return }
+        if( password.length >= 8) {
+            setValidForm({...validForm, password: true  })
+        }
+        else {
+            setValidForm({...validForm, password: false  })
+        }
+    }, [password])
+
     // function to return bootstrap classname based on validation rules
     const checkState = (target:Formstate[keyof Formstate]) => {
         if(target === undefined) {
@@ -58,11 +69,22 @@ export function Register() {
         }
     }
 
+    const registerHandler = (event:React.SubmitEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        // get data from the form
+        const form = new FormData(event.currentTarget)
+        const uname = form.get("username")
+        const uemail = form.get("email")
+        const upassword = form.get("password")
+        const user = {username:uname,email:uemail,password:upassword}
+        console.log( user )
+    }
+
     return (
         <Container>
             <Row className='mt-4'>
                 <Col md={{ span: 4, offset: 4 }}>
-                    <Form>
+                    <Form noValidate id="RegisterForm" onSubmit={registerHandler}>
                         <h2>Sign up for an account</h2>
                         <Form.Group className="mb-3" controlId="registerUser">
                             <Form.Label>Username</Form.Label>
@@ -96,10 +118,33 @@ export function Register() {
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="loginPassword">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Minimum 8 characters" />
+                            <Form.Control 
+                                required
+                                type="password"
+                                name="password"
+                                placeholder="Minimum 8 characters" 
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                                className={ checkState(validForm.email) }
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Minimum length is 8 characters
+                            </Form.Control.Feedback>
                         </Form.Group>
                         <div className="d-grid gap-2">
-                            <Button variant='primary' type="button">Register</Button>
+                            <Button 
+                                variant='primary' 
+                                type="submit"
+                                disabled={
+                                    ( 
+                                        validForm.username && 
+                                        validForm.email && 
+                                        validForm.password 
+                                    ) ? false : true
+                                }
+                            >
+                                Register
+                            </Button>
                         </div>
                          <div className="text-center mt-4">
                             <p>Already have an account? <Link to="/login">Sign in to your account</Link></p>
