@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form'
 import {Link} from 'react-router'
 import {useState,useEffect} from 'react'
 
-interface Formstate {
+type Formstate = {
     username: undefined | boolean
     email: undefined | boolean
     password: undefined | boolean
@@ -14,24 +14,41 @@ interface Formstate {
 
 export function Register() {
     // valid form state
-    const[validForm,setValidForm] = useState<Formstate>({username:undefined,email:undefined,password:undefined})
+    const[validForm,setValidForm] = useState<Formstate>({
+        username:undefined,
+        email:undefined,
+        password:undefined
+    })
     //username
-    const[userName,setUserName] = useState<string>('')
+    const[userName,setUserName] = useState<string | undefined>(undefined)
     //email
-    const[email,setEmail] = useState<string>('')
+    const[email,setEmail] = useState<string | undefined>(undefined)
     //username
-    const[password,setPassword] = useState<string>('')
+    const[password,setPassword] = useState<string | undefined>(undefined)
 
     useEffect( () => {
-        if(userName.length > 4) {
-            setValidForm({username:true,email:undefined,password:undefined})
+        if( userName === undefined ) { return }
+        else if( userName.length >= 4 && /^[a-zA-Z0-9_]+$/.test(userName)) {
+            setValidForm({...validForm, username: true })
         }
-    },[userName,email,password])
+        else {
+            setValidForm({...validForm, username: false })
+        }
+    }, [userName] )
 
+    useEffect( () => {
+        if( email === undefined ) { return }
+        if( email.indexOf('@') > 0 && email?.includes('.') ) {
+            setValidForm({...validForm, email: true  })
+        }
+        else {
+            setValidForm({...validForm, email: false  })
+        }
+    }, [email])
     // function to return bootstrap classname based on validation rules
-    const checkState = (target:string | undefined) => {
+    const checkState = (target:Formstate[keyof Formstate]) => {
         if(target === undefined) {
-            return null
+            return ''
         }
         else if( target === false ) {
             return "is-invalid"
@@ -50,16 +67,32 @@ export function Register() {
                         <Form.Group className="mb-3" controlId="registerUser">
                             <Form.Label>Username</Form.Label>
                             <Form.Control 
-                                type="text" 
+                                required
+                                type="text"
+                                name="username" 
                                 placeholder="letters,numbers and underscore" 
                                 value={userName}
                                 onChange={(event) => setUserName(event.target.value) }
                                 className={ checkState(validForm.username) }
                             />
+                            <Form.Control.Feedback type="invalid">
+                                Only a-z A-Z 0-9 and _ allowed. No spaces
+                            </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="loginEmail">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="name@example.com" />
+                            <Form.Control 
+                                required
+                                type="email" 
+                                name="email"
+                                placeholder="name@example.com" 
+                                value={email}
+                                onChange={(event) => setEmail(event.target.value)}
+                                className={ checkState(validForm.email) }
+                            />
+                             <Form.Control.Feedback type="invalid">
+                                Please type a valid email address
+                            </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="loginPassword">
                             <Form.Label>Password</Form.Label>
