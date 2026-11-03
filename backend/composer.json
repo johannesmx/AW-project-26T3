@@ -4,7 +4,11 @@
     "type": "project",
     "require": {
         "firebase/php-jwt": "^7.2",
-        "vlucas/phpdotenv": "^5.7"
+         "php":"^8.3",
+        "vlucas/phpdotenv": "^5.8",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "ext-mysqli": "*"
     },
     "autoload": {
         "psr-4": {
