@@ -1,8 +1,8 @@
-.devcontainer/.env
-backend/.env
-backend/vendor
-frontend/node_modules
-frontend/dist
+/.devcontainer/.env
+/backend/.env
+/backend/vendor/
+/frontend/node_modules/
+/frontend/dist/
 node_modules
 .env
 
