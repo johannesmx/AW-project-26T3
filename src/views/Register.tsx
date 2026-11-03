@@ -24,16 +24,19 @@ export function Register() {
 
     useEffect( () => {
         if(userName.length > 4) {
-            setValidForm({username:true,email:undefined,password:undefined})
+            setValidForm({...validForm,username:true})
         }
-    },[userName,email,password])
+        else {
+            setValidForm({...validForm,username:false})
+        }
+    },[userName])
 
     // function to return bootstrap classname based on validation rules
-    const checkState = (target:string | undefined) => {
-        if(target === undefined) {
-            return null
+    const checkState = (inputState:boolean | undefined) => {
+        if(inputState === undefined) {
+            return ""
         }
-        else if( target === false ) {
+        else if( inputState === false ) {
             return "is-invalid"
         }
         else {
