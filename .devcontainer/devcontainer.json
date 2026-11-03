@@ -26,7 +26,7 @@
 			"visibility": "private"
 		}
 	},
-	"postCreateCommand": "npm ci && composer install --working-dir=backend && (npm run dev -- --host 0.0.0.0 > /tmp/vite.log 2>&1 &)",
+	"postCreateCommand": "composer install --working-dir=backend",
 	"customizations": {
 		"vscode": {
 			"extensions": [
