@@ -26,9 +26,11 @@ services:
       dockerfile: .devcontainer/php/Dockerfile
     volumes:
       - ..:/var/www/project:cached
-    working_dir: /var/www/project
+    working_dir: /var/www/project/backend/api
     expose:
       - "80"
+    ports:
+      - "8080:80"
     environment:
       DB_HOST: db
       DB_PORT: "3306"
