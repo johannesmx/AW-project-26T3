@@ -12,7 +12,8 @@
 	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
 	"forwardPorts": [
 		5173,
-		8082
+		8082,
+		8080
 	],
 	"portsAttributes": {
 		"5173": {
@@ -22,6 +23,11 @@
 		},
 		"8082": {
 			"label": "phpMyAdmin",
+			"onAutoForward": "silent",
+			"visibility": "private"
+		},
+		"8080": {
+			"label": "Api Server",
 			"onAutoForward": "silent",
 			"visibility": "private"
 		}

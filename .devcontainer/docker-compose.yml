@@ -30,6 +30,8 @@ services:
     working_dir: /var/www/project
     expose:
       - "80"
+    ports:
+      - "8080:80"
     environment:
       DB_HOST: db
       DB_PORT: "3306"
