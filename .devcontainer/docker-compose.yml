@@ -1,7 +1,7 @@
 version: '3.8'
 
 services: 
-  app:
+  frontend:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
@@ -18,10 +18,10 @@ services:
     ports:
      - "5173:5173"
     depends_on:
-      php:
+      backend:
         condition: service_started
   
-  php: 
+  backend: 
     build:
       context: ..
       dockerfile: .devcontainer/php/Dockerfile

@@ -3,7 +3,7 @@
 {
 	"name": "React with PHP and MySQL",
 	"dockerComposeFile": "docker-compose.yml",
-	"service": "app",
+	"service": "frontend",
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
