@@ -1,2 +1,8 @@
+Options -MultiViews
+
 RewriteEngine On
-RewriteRule ^ index.php [L]
+
+# Route requests to index.php unless a real file exists
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
