@@ -10,6 +10,16 @@ import { useState, useEffect } from 'react'
 
 import { useParams } from 'react-router'
 
+// interface ProductType {
+//     id: number
+//     name: string
+//     description: string
+//     price: number
+//     category: number
+//     brand: string
+//     image: string
+// }
+
 const emptyProduct = {
     id: 0,
     name: "",
