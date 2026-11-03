@@ -27,7 +27,7 @@ services:
       dockerfile: .devcontainer/php/Dockerfile
     volumes:
       - ..:/var/www/project:cached
-    working_dir: /var/www/project
+    working_dir: /var/www/project/backend/api
     expose:
       - "80"
     ports:
