@@ -1215,3 +1215,14 @@ form > div:has(> .form-label) {
     scroll-behavior: auto !important;
   }
 }
+
+.review-ratings {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.review-ratings .rating {
+  font-size: 14px;
+}

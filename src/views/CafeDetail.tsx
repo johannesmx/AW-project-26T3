@@ -32,13 +32,22 @@ export function ReviewCard({
         <p>{review.body}</p>
         {children}
       </div>
-      <span
-        className="rating"
-        aria-label={"Coffee rating " + review.coffee + " out of 5"}
-      >
-        <Icon name="starSmall" />
-        {review.coffee}/5
-      </span>
+<div className="review-ratings">
+  {[
+    { label: "Coffee", score: review.coffee },
+    { label: "Atmosphere", score: review.atmosphere },
+    { label: "Service", score: review.service },
+  ].map(({ label, score }) => (
+    <span
+      className="rating"
+      key={label}
+      aria-label={`${label} rating ${score} out of 5`}
+    >
+      <Icon name="starSmall" />
+      {label}: {score}/5
+    </span>
+  ))}
+</div>
     </article>
   );
 }
