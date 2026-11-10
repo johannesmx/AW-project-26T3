@@ -6,38 +6,37 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Link } from 'react-router'
 
-import { useState, useEffect} from 'react'
+import { useEffect, useState } from 'react'
 
-type Item = {
-        ProductID:number,
-        ProductCode:string,
-        Name:string,
-        Brand:string,
-        Image:string,
+type ProductItem = {
+    ProductID: number,
+    ProductCode: string,
+    Name: string,
+    Brand: string,
+    Image: string
 }
 
 export function Home() {
-    // states
-    const[ data, setData ] = useState<[] | Item[]>([])
+    const [data, setData] = useState<ProductItem[]>([])
 
-     //fetch function
+    // function to fetch data from the API
     const getData = async () => {
         const response = await fetch('/api/products')
-        if(!response.ok) {
-            throw new Error(`HTTP error: ${ response.status }`)
+        if (!response.ok) {
+            throw new Error('Network response was not ok')
         }
         const itemsdata = await response.json()
+        console.log(itemsdata)
         return itemsdata
     }
 
     useEffect( () => {
-        async function loadData() {
+        async function fetchData() {
             const result = await getData()
-            console.log(result)
             setData(result)
         }
-        loadData()
-    },[])
+        fetchData()
+    }, [])
 
     // sub component
     const Items = data.map( (item:Item) => {
@@ -49,7 +48,7 @@ export function Home() {
                     </div>
                     <Card.Body>
                         <Card.Title>{item.Name.substring(0,22) + '...'}</Card.Title>
-                        <p>{ item.ProductCode }</p>
+                        {/* <p>{ item.description.substring(0,32) + '...' }</p> */}
                         <Link className='btn btn-primary' to={ 'product/' + item.ProductID }>
                             View
                         </Link>
