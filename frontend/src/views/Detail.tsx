@@ -74,7 +74,7 @@ export function Detail() {
             </Row>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Review {product.name}</Modal.Title>
+                    <Modal.Title>Review {product.Name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
