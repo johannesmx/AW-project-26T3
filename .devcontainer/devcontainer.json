@@ -3,7 +3,7 @@
 {
 	"name": "React with PHP and MySQL",
 	"dockerComposeFile": "docker-compose.yml",
-	"service": "app",
+	"service": "frontend",
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
@@ -12,7 +12,8 @@
 	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
 	"forwardPorts": [
 		5173,
-		8082
+		8082,
+		8080
 	],
 	"portsAttributes": {
 		"5173": {
@@ -24,9 +25,14 @@
 			"label": "phpMyAdmin",
 			"onAutoForward": "silent",
 			"visibility": "private"
+		},
+		"8080": {
+			"label": "Api Server",
+			"onAutoForward": "silent",
+			"visibility": "private"
 		}
 	},
-	"postCreateCommand": "npm ci && composer install --working-dir=backend && (npm run dev -- --host 0.0.0.0 > /tmp/vite.log 2>&1 &)",
+	"postCreateCommand": "composer install --working-dir=backend",
 	"customizations": {
 		"vscode": {
 			"extensions": [

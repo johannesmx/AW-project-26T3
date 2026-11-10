@@ -9,8 +9,13 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     proxy: {
+      "/backend/api": {
+        target: "http://backend",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/backend\/api/, "/backend/api/index.php"),
+      },
       "/api": {
-        target: "http://php",
+        target: "http://backend",
         changeOrigin: true,
       },
     },

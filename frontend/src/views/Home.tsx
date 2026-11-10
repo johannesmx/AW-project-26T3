@@ -6,10 +6,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Link } from 'react-router'
 
-const ImageStyle = {
-    aspectRatio: "1/1",
-    objectFit: "cover"
-}
+
 export function Home() {
     // sub component
     const Items = data.map( (item) => {

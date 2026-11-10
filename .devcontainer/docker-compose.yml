@@ -1,7 +1,7 @@
 version: '3.8'
 
 services: 
-  app:
+  frontend:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
@@ -9,27 +9,28 @@ services:
     volumes:
       - ..:/workspaces:cached
 
-    # Overrides default command so things don't shut down after the process ends.
-    command: sleep infinity
+    working_dir: /workspaces/frontend
+    # command: sh -c "npm ci && npm run dev -- --host 0.0.0.0"
 
     # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
     # network_mode: service:db
-    working_dir: /workspace
     ports:
      - "5173:5173"
     depends_on:
-      php:
+      backend:
         condition: service_started
   
-  php: 
+  backend: 
     build:
       context: ..
       dockerfile: .devcontainer/php/Dockerfile
     volumes:
       - ..:/var/www/project:cached
-    working_dir: /var/www/project
+    working_dir: /var/www/project/backend
     expose:
       - "80"
+    ports:
+      - "8080:80"
     environment:
       DB_HOST: db
       DB_PORT: "3306"
