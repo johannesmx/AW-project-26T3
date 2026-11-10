@@ -21,13 +21,12 @@ import { useParams } from 'react-router'
 // }
 
 const emptyProduct = {
-    id: 0,
-    name: "",
-    description: "",
-    price: 0,
-    category: "",
-    brand: "",
-    image: "",
+    ProductID: 0,
+    Name: "",
+    ProductCode: "",
+    Description: "",
+    Brand: "",
+    Image: "",
 }
 
 export function Detail() {
@@ -35,13 +34,25 @@ export function Detail() {
     const [product, setProduct] = useState(emptyProduct)
     const [show, setShow] = useState<boolean>(false)
 
+    // useEffect(() => {
+    //     fetch("/testdata/product-data.json").then((response) => response.json())
+    //         .then((data) => {
+    //             const item = data.find((product: any) => product.id == productid)
+    //             setProduct(item)
+    //         })
+    // })
+
     useEffect(() => {
-        fetch("/testdata/product-data.json").then((response) => response.json())
-            .then((data) => {
-                const item = data.find((product: any) => product.id == productid)
-                setProduct(item)
-            })
-    })
+        async function fetchProduct() {
+            const response = await fetch(`/api/products/${productid}`)
+            if (!response.ok) {
+                throw new Error(`HTTP error: ${response.status}`)
+            }
+            const data = await response.json()
+            setProduct(data)
+        }
+        fetchProduct()
+    }, [productid])
 
     // function to handle review submission
     const handleClose = () => {
@@ -52,12 +63,12 @@ export function Detail() {
         <Container>
             <Row className='mt-4'>
                 <Col>
-                    <Image src={'/images/' + product.image} fluid />
+                    <Image src={'/images/' + product.Image} fluid />
                 </Col>
                 <Col>
-                    <h3>{product.name}</h3>
-                    <p>{product.description}</p>
-                    <p className="fs-3">${product.price}</p>
+                    <h3>{product.Name}</h3>
+                    <p>{product.ProductCode}</p>
+                    {/* <p className="fs-3">${product.price}</p> */}
                     <Button variant='primary' onClick={() => setShow(true)}>Review this item</Button>
                 </Col>
             </Row>

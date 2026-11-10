@@ -47,5 +47,66 @@ class ProductsController {
             //query or execute error
         }
     }
+
+    public function getProductById(int $productId): ?array {
+        $query = "
+        SELECT
+        Product.ProductID AS ProductID,
+        Product.ProductCode AS ProductCode,
+        Product.Name AS Name,
+        Product.Brand AS Brand,
+        Image.Filename AS Image,
+        Image.Caption AS Caption
+        FROM Product
+        INNER JOIN Product_Image
+        ON Product.ProductID = Product_Image.ProductID
+        INNER JOIN Image
+        ON Product_Image.ImageID = Image.ImageID
+        WHERE Product.active = 1 AND Product.ProductID = ?
+        ";
+
+        $statement = $this->db->prepare($query);
+        $statement->bind_param('i', $productId);
+        $statement->execute();
+
+        $product = $statement->get_result()->fetch_assoc();
+        return $product ?: null;
+    }
+
+    public function searchProducts(string $query): array {
+        $searchTerm = '%' . $query . '%';
+        $statement = $this->db->prepare("
+            SELECT
+                Product.ProductID AS ProductID,
+                Product.ProductCode AS ProductCode,
+                Product.Name AS Name,
+                Product.Brand AS Brand,
+                Image.Filename AS Image,
+                Image.Caption AS Caption
+            FROM Product
+            INNER JOIN Product_Image
+                ON Product.ProductID = Product_Image.ProductID
+            INNER JOIN Image
+                ON Product_Image.ImageID = Image.ImageID
+            WHERE Product.active = 1
+                AND (
+                    Product.Name LIKE ?
+                    OR Product.ProductCode LIKE ?
+                    OR Product.Brand LIKE ?
+                    OR Product.Description LIKE ?
+                )
+        ");
+        $statement->bind_param('ssss', $searchTerm, $searchTerm, $searchTerm, $searchTerm);
+        $statement->execute();
+
+        $result = $statement->get_result();
+        $items = [];
+        while ($row = $result->fetch_assoc()) {
+            $items[] = $row;
+        }
+
+        return $items;
+    }
+
 }
 ?>

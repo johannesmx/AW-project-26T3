@@ -21,14 +21,33 @@ $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $requestMethod = strtoupper($_SERVER['REQUEST_METHOD']);
 
 $requestStr = $requestMethod . ' ' . rtrim($requestUri, '/');
-//echo $requestStr;
+
+// handle request for a specific product by ID
+if (
+    $requestMethod === 'GET'
+    && preg_match('#^/api/products/([1-9][0-9]*)$#D', $requestUri, $matches) === 1
+) {
+    $products = new ProductsController();
+    $product = $products->getProductById((int) $matches[1]);
+
+    if ($product === null) {
+        sendResponse(404, []);
+    }
+
+    sendResponse(200, $product);
+}
+
+// handle request for all products or other endpoints
 
 switch ($requestStr) {
     case 'GET /api/products':
         $products = new ProductsController();
-        $items = $products->getProducts();
+        $query = trim((string) ($_GET['query'] ?? ''));
+        $items = $query !== ''
+            ? $products->searchProducts($query)
+            : $products->getProducts();
         //print_r($products);
-        sendResponse( 200 , $items );
+        sendResponse(200, $items ?? []);
         break;
 
     case 'GET /api/about':
@@ -58,7 +77,3 @@ function sendResponse(int $code, array $data)
     echo json_encode($data);
     exit();
 }
-
-// $products = new ProductsController();
-// $items = $products -> getProducts();
-// echo $items;
