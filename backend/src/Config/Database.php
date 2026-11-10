@@ -12,10 +12,10 @@ class Database {
     private mysqli $connection;
 
     public function __construct() {
-        $this->dbhost = getenv('DB_HOST');
-        $this->dbuser = getenv('DB_USER');
-        $this->dbpassword = getenv('DB_PASSWORD');
-        $this->dbname = getenv('DB_NAME');
+        $this->dbhost = $_ENV['DBHOST'];
+        $this->dbuser = $_ENV['DBUSER'];
+        $this->dbpassword = $_ENV['DBPASSWORD'];
+        $this->dbname = $_ENV['DBNAME'];
         $this->connect();
     }
      private function connect() {
@@ -32,6 +32,7 @@ class Database {
         catch (mysqli_sql_exception $e) {
             // Handle connection error
             error_log("Database connection error: " . $e->getMessage());
+            echo $e->getMessage();
         }
     }
     public function getConnection(): mysqli {

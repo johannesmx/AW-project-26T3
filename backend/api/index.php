@@ -21,12 +21,12 @@ $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $requestMethod = strtoupper($_SERVER['REQUEST_METHOD']);
 
 $requestStr = $requestMethod . ' ' . rtrim($requestUri, '/');
-
-switch ( $requestUri) {
+switch ( $requestStr) {
     case 'GET /api/products':
-        $controller = new ProductsController();
-        $products = $controller->getProducts();
-       
+        $products = new ProductsController();
+        $result = $products->getProducts();
+        //print_r($result);
+        sendResponse(200, $result);
         break;
     default:
         sendResponse(404,[]);
@@ -39,7 +39,7 @@ function sendResponse(int $code, array $data):void {
     header('Access-Control-Allow-Origin: *');
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
     header('Access-Control-Allow-Headers: Content-Type, Authorization');
-    header('Content-Type: application/json');
+    header('Content-Type: application/json ; charset=UTF-8');
     echo json_encode($data);
     exit();
 }
