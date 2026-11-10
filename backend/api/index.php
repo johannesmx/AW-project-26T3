@@ -27,7 +27,7 @@ switch ($requestStr) {
     case 'GET /api/products':
         $products = new ProductsController();
         $items = $products->getProducts();
-        print_r($products);
+        //print_r($products);
         sendResponse( 200 , $items );
         break;
 
