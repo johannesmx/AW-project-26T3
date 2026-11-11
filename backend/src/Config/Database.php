@@ -2,7 +2,6 @@
 namespace App\Backend\Config;
 
 use \mysqli;
-use \Exception;
 use mysqli_sql_exception;
 
 class Database {
@@ -11,35 +10,32 @@ class Database {
     private string $dbpassword;
     private string $dbname;
     private mysqli $connection;
-    public function __construct()
-    {
-        $this -> getDbConfig();
-        $this -> connect();
+
+    public function __construct() {
+        $this->dbhost = $_ENV['DBHOST'];
+        $this->dbuser = $_ENV['DBUSER'];
+        $this->dbpassword = $_ENV['DBPASSWORD'];
+        $this->dbname = $_ENV['DBNAME'];
+        $this->connect();
     }
-    private function getDbConfig() {
-        $this -> dbname = $_ENV['DBNAME'];
-        $this -> dbuser = $_ENV['DBUSER'];
-        $this -> dbpassword = $_ENV['DBPASSWORD'];
-        $this -> dbhost = $_ENV['DBHOST'];
-    }
-    private function connect() {
-        // enable mysqli exception
+     private function connect() {
+        // enable mysqli exceptions
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         try {
             $this -> connection = mysqli_connect(
-                $this -> dbhost,
-                $this -> dbuser,
-                $this -> dbpassword,
-                $this -> dbname
+                $this->dbhost,
+                $this->dbuser,
+                $this->dbpassword,
+                $this->dbname
             );
         }
-        catch( mysqli_sql_exception $error ) {
-            // do something with the error
-            exit();
+        catch (mysqli_sql_exception $e) {
+            // Handle connection error
+            error_log("Database connection error: " . $e->getMessage());
+            echo $e->getMessage();
         }
     }
-    public function getConnection() {
-        return $this -> connection;
+    public function getConnection(): mysqli {
+        return $this->connection;
     }
 }
-?>
