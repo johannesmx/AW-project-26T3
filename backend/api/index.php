@@ -16,37 +16,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $inputJSON = file_get_contents('php://input');
 $body = json_decode($inputJSON, true) ?? [];
 
+// handle request with parameters
+// if the request is for search ?keywords=cool
+// if the request is for route/id
+
+
 // Strip query strings and get the path relative to this script
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $requestMethod = strtoupper($_SERVER['REQUEST_METHOD']);
-
+// chain the request method and the request uri into "GET /api/products" 
+// while removing the trailing slash "/"
 $requestStr = $requestMethod . ' ' . rtrim($requestUri, '/');
-
-// handle request for a specific product by ID
-if (
-    $requestMethod === 'GET'
-    && preg_match('#^/api/products/([1-9][0-9]*)$#D', $requestUri, $matches) === 1
-) {
-    $products = new ProductsController();
-    $product = $products->getProductById((int) $matches[1]);
-
-    if ($product === null) {
-        sendResponse(404, []);
-    }
-
-    sendResponse(200, $product);
-}
-
 // handle request for all products or other endpoints
-
 switch ($requestStr) {
+    // get all products
     case 'GET /api/products':
         $products = new ProductsController();
-        $query = trim((string) ($_GET['query'] ?? ''));
-        $items = $query !== ''
-            ? $products->searchProducts($query)
-            : $products->getProducts();
-        //print_r($products);
+        $items = $products->getProducts();
         sendResponse(200, $items ?? []);
         break;
 
