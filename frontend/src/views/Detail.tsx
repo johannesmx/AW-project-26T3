@@ -50,8 +50,10 @@ export function Detail() {
             }
             const data = await response.json()
             setProduct(data)
+            document.title = 'Detail for ' + data.Name
         }
         fetchProduct()
+        
     }, [productid])
 
     // function to handle review submission

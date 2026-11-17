@@ -26,7 +26,6 @@ export function Home() {
             throw new Error('Network response was not ok')
         }
         const itemsdata = await response.json()
-        console.log(itemsdata)
         return itemsdata
     }
 
