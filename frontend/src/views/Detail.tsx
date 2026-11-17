@@ -64,12 +64,13 @@ export function Detail() {
     return (
         <Container>
             <Row className='mt-4'>
-                <Col>
+                <Col md={6}>
                     <Image src={'/images/' + product.Image} fluid />
                 </Col>
                 <Col>
                     <h3>{product.Name}</h3>
-                    <p>{product.ProductCode}</p>
+                    <h5 className="fw-bold">{product.Brand}</h5>
+                    <p>SKU {product.ProductCode}</p>
                     {/* <p className="fs-3">${product.price}</p> */}
                     <Button variant='primary' onClick={() => setShow(true)}>Review this item</Button>
                 </Col>
