@@ -10,38 +10,43 @@ import { useState, useEffect } from 'react'
 
 import { useParams } from 'react-router'
 
-// interface ProductType {
-//     id: number
-//     name: string
-//     description: string
-//     price: number
-//     category: number
-//     brand: string
-//     image: string
-// }
-
 const emptyProduct = {
-    id: 0,
-    name: "",
-    description: "",
-    price: 0,
-    category: "",
-    brand: "",
-    image: "",
+    ProductID: 0,
+    Name: "",
+    Description: "",
+    Caption: "",
+    Brand: "",
+    Image: "",
+    ProductCode: ""
+}
+
+type ProductItem = {
+    ProductID: number,
+    Name: string,
+    Description: string,
+    Caption: string,
+    Brand: string,
+    Image: string,
+    ProductCode: string
 }
 
 export function Detail() {
     let { productid } = useParams()
-    const [product, setProduct] = useState(emptyProduct)
+    const [product, setProduct] = useState<ProductItem>(emptyProduct)
     const [show, setShow] = useState<boolean>(false)
 
     useEffect(() => {
-        fetch("/testdata/product-data.json").then((response) => response.json())
-            .then((data) => {
-                const item = data.find((product: any) => product.id == productid)
-                setProduct(item)
-            })
-    })
+       async function fetchProduct() {
+            const response = await fetch(`/api/product/${productid}`)
+            if( ! response.ok ) {
+                throw new Error(`HTTP Error: ${response.status } ` )
+            }
+            const data = await response.json()
+            setProduct(data)
+            document.title = "Detail for " + data.Name
+       }
+       fetchProduct()
+    }, [])
 
     // function to handle review submission
     const handleClose = () => {
@@ -52,18 +57,18 @@ export function Detail() {
         <Container>
             <Row className='mt-4'>
                 <Col>
-                    <Image src={'/images/' + product.image} fluid />
+                    <Image src={'/images/' + product.Image} fluid />
                 </Col>
                 <Col>
-                    <h3>{product.name}</h3>
-                    <p>{product.description}</p>
-                    <p className="fs-3">${product.price}</p>
+                    <h3>{product.Name}</h3>
+                    <p>{product.Description}</p>
+                    <p className="fs-3">{product.ProductCode}</p>
                     <Button variant='primary' onClick={() => setShow(true)}>Review this item</Button>
                 </Col>
             </Row>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Review {product.name}</Modal.Title>
+                    <Modal.Title>Review {product.Name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>

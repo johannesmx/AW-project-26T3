@@ -8,6 +8,7 @@ import { Contact } from './views/Contact'
 import { Detail } from './views/Detail'
 import { Login } from './views/Login'
 import { Register } from './views/Register'
+import { SearchResult } from './views/SearchResult'
 // components
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
@@ -26,6 +27,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="product/:productid" element={<Detail />} />
+          <Route path="search/:query" element={ <SearchResult/> } />
         </Routes>
       </Container>
       <Footer />

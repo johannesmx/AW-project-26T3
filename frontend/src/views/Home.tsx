@@ -26,7 +26,6 @@ export function Home() {
             throw new Error('Network response was not ok')
         }
         const itemsdata = await response.json()
-        console.log(itemsdata)
         return itemsdata
     }
 
@@ -34,6 +33,7 @@ export function Home() {
         async function fetchData() {
             const result = await getData()
             setData(result)
+            document.title = "Welcome to Verdictly"
         }
         fetchData()
     }, [])
@@ -47,7 +47,7 @@ export function Home() {
                     <Card.Img src={"images/" + item.Image}  variant='top' className='object-fit-cover' />
                     </div>
                     <Card.Body>
-                        <Card.Title>{item.Name.substring(0,22) + '...'}</Card.Title>
+                        <Card.Title>{item.Name.substring(0,30) + '...'}</Card.Title>
                         {/* <p>{ item.description.substring(0,32) + '...' }</p> */}
                         <Link className='btn btn-primary' to={ 'product/' + item.ProductID }>
                             View
@@ -59,7 +59,7 @@ export function Home() {
     })
     return(
         <>
-            <Container>
+            <Container fluid>
             <h1>Home</h1>
                 <Row>
                     {Items}
