@@ -2,12 +2,10 @@ import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import  Form  from 'react-bootstrap/Form'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
 
-import {  NavLink } from 'react-router'
+import {  NavLink, useNavigate } from 'react-router'
 
 interface HeaderProps {
     title: string
@@ -15,6 +13,15 @@ interface HeaderProps {
 }
 
 export function Header( props:HeaderProps ) {
+    let navigate = useNavigate()
+
+    const searchHandler = (event: React.SubmitEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        const data = new FormData(event.target)
+        const queryString = data.get('query')
+        navigate(`/search/${queryString}`)
+    }
+
     return (
         <Navbar expand="lg" className="bg-info-subtle" data-bs-theme="dark">
             <Container fluid className='d-flex justify-content-between'>
@@ -22,9 +29,9 @@ export function Header( props:HeaderProps ) {
                    <img src={props.image} style={{maxWidth:"80px"}} /> 
                    <span className='d-none sm:d-block'>{ props.title }</span>
                 </Navbar.Brand>
-                <Form className='flex-grow-1 sm:m-0 mx-4'>
+                <Form id='SearchForm' onSubmit={searchHandler} method='get' className='flex-grow-1 sm:m-0 mx-4' style={{maxWidth:'50vw'}}>
                     <InputGroup>
-                        <Form.Control type="search" name="query" className='flex-grow-1'/>
+                        <Form.Control type="search" name="query" className='flex-grow-1' placeholder='Search for a product name or description'/>
                         <Button type="submit" className=''>Search</Button>
                     </InputGroup>
                 </Form>

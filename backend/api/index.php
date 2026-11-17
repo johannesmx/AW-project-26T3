@@ -4,8 +4,10 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Backend\App\App;
 use App\Backend\Controllers\ProductsController;
+use App\Backend\Controllers\SearchController;
 
 $app = new App();
+
 
 if( $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -24,6 +26,33 @@ $body = json_decode($inputJSON, true) ?? [];
 // Strip query strings and get the path relative to this script
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $requestMethod = strtoupper($_SERVER['REQUEST_METHOD']);
+$uri = rtrim( $requestUri, '/');
+
+// get the components of the request eg /api/products/12
+$uriComps = explode('/', $uri );
+// get the last part of the request eg 12
+$uriparam = end($uriComps);
+
+// handle the request with the parameter
+if( $requestMethod === 'GET' && is_numeric( $uriparam ) && $uri = '/api/products/' . $uriparam ){
+    $id = $uriparam;
+    $handler = new ProductsController();
+    $product = $handler -> getProductDetail($id);
+    // send response OK, if product is null, send empty array
+    sendResponse(200, $product ?? [] );
+}
+
+if( $requestMethod === 'GET' && $uri = '/api/search'  && isset( $_GET['query'] ) ) {
+    $search_query = $_GET['query'];
+    $handler = new SearchController();
+    $results = $handler -> search($search_query);
+    sendResponse( 200, $results ?? [] );
+}
+
+if ( $requestMethod === 'POST' && $uri = '/api/register' ) {
+    
+}
+
 // chain the request method and the request uri into "GET /api/products" 
 // while removing the trailing slash "/"
 $requestStr = $requestMethod . ' ' . rtrim($requestUri, '/');

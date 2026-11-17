@@ -36,12 +36,13 @@ export function Home() {
             setData(result)
         }
         fetchData()
+        document.title = 'Welcome to Verdictly'
     }, [])
 
     // sub component
-    const Items = data.map( (item:Item) => {
+    const Items = data.map( (item:ProductItem, key) => {
         return (
-            <Col md={3}>
+            <Col md={3} key={key}>
                 <Card className='mb-4'>
                     <div className='ratio ratio-1x1'>
                     <Card.Img src={"images/" + item.Image}  variant='top' className='object-fit-cover' />
