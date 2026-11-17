@@ -33,12 +33,14 @@ class SearchController {
         Product.Name LIKE ?
         OR
         Product.Description LIKE ?
+        OR
+        Product.Brand LIKE ?
         ";
 
         try {
             $statement = $this -> db -> prepare($query);
             $search_string = "%$search_query%";
-            $statement -> bind_param( 'ss', $search_string, $search_string );
+            $statement -> bind_param( 'sss', $search_string, $search_string, $search_string );
             $statement -> execute();
             $result = $statement -> get_result();
             $items = array();
