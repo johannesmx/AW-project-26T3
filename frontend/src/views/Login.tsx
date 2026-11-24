@@ -22,7 +22,7 @@ export function Login() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      //navigate('/', { replace: true })
+      navigate('/', { replace: true })
     }
   }, [isAuthenticated, navigate])
 

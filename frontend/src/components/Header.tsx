@@ -6,21 +6,15 @@ import { NavLink, useNavigate } from 'react-router'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
 import { useAuth } from '../hooks/useAuth'
-import { useState,useEffect} from 'react'
+import {useEffect} from 'react'
 
 interface HeaderProps {
     title: string
     image: string
 }
 
-type User = {
-    name: string,
-    email: string,
-    id: number
-}
-
 export function Header(props: HeaderProps) {
-    const { user, login, submitting, error, isAuthenticated } = useAuth()
+    const { user, isAuthenticated } = useAuth()
 
     let NavObjects = (!isAuthenticated) ? [
         { name: 'Home', path: '/'}, 

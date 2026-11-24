@@ -36,7 +36,7 @@ export function Register() {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      //navigate('/', { replace: true })
+      navigate('/', { replace: true })
     }
   }, [isAuthenticated, navigate])
 

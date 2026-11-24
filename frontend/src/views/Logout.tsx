@@ -13,7 +13,8 @@ export function Logout() {
             return
         }
         logout()
-    }, [])
+        navigate('/', { replace: true })
+    }, [isAuthenticated])
 
     return(
         <Container>
