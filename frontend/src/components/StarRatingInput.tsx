@@ -29,7 +29,7 @@ export function StarRatingInput(props: StarRatingInputProps) {
 
     const StarButtons = stars.map((item, key) => {
         return (
-            <div key={key} onClick={() => starClickHandler(key) }>
+            <div key={key} onClick={() => starClickHandler(key)} className="fs-3">
                 {/* print white or black star characters */}
                 { (item == true ) ? '\u2605' : '\u2606'}
             </div>
@@ -37,10 +37,10 @@ export function StarRatingInput(props: StarRatingInputProps) {
     })
 
     return (
-        <div className='d-flex gap-4 fs-lg'>
+        <div className='d-flex gap-4 fs-lg align-items-center mb-3'>
             {StarButtons}
             <Form.Control type='hidden' name='rating' value={rating} />
-            <p>You rated it {rating} { (rating > 1) ? 'stars' : 'star'}</p>
+            <p className='m-0'>You rated it <strong>{rating}</strong> { (rating > 1) ? 'stars' : 'star'}</p>
         </div>
     )
 }

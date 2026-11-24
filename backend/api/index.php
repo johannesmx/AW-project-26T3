@@ -9,9 +9,9 @@ use App\Backend\Controllers\UserController;
 
 $app = new App();
 
+// add origins allowed to access the api
 $allowedOrigins = [
-    'http://localhost:5173', // Vite default
-    'http://localhost:3000', // CRA / Next / custom dev server
+    'http://localhost:5173' // Vite default
 ];
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
@@ -125,6 +125,7 @@ if ($method === 'POST' && $uri === '/api/login') {
     sendResponse(!empty($loginResult['success']) ? 200 : 401, $loginResult);
 }
 
+// handle token verification
 if ($method === 'GET' && $uri === '/api/me') {
     $handler = new UserController();
     $token = $_COOKIE['auth_token'] ?? null;
@@ -133,11 +134,17 @@ if ($method === 'GET' && $uri === '/api/me') {
     sendResponse(!empty($meResult['success']) ? 200 : 401, $meResult);
 }
 
+// handle user signing out
 if ($method === 'POST' && $uri === '/api/logout') {
     $handler = new UserController();
     $logoutResult = $handler->logout();
 
     sendResponse(200, $logoutResult);
+}
+
+// handle review submission
+if ($method === 'POST' && $uri === '/api/review/submit') {
+
 }
 
 $requestStr = $method . ' ' . rtrim($requestUri, '/');

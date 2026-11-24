@@ -7,11 +7,12 @@ import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import Alert from 'react-bootstrap/Alert'
 import Spinner from 'react-bootstrap/Spinner'
+import { useAuth } from '../hooks/useAuth'
 
 // import { StarRatingDisplay } from '../components/StarRatingDisplay'
 import { StarRatingInput } from '../components/StarRatingInput'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 
 type ProductDetail = {
@@ -48,6 +49,27 @@ export function Detail() {
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<string | null>(null)
     const [show, setShow] = useState<boolean>(false)
+
+    // states for the review form
+    const [title,setTitle] = useState<string>()
+    const [rating,setRating] = useState<number>(0)
+    const [body,setBody] = useState<string>()
+
+    const { isAuthenticated } = useAuth()
+
+    // custom button component
+    const ReviewButton = () => {
+        if (isAuthenticated) {
+            return (
+                <Button variant="primary" onClick={() => setShow(true)}>
+                    Review this item
+                </Button>
+            )
+        }
+        else {
+            return null
+        }
+    }
 
     useEffect(() => {
         const controller = new AbortController()
@@ -104,6 +126,17 @@ export function Detail() {
         setShow(false)
     }
 
+    const handleReviewSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        // if user is not authenticated don't submit
+        if(!isAuthenticated) {
+            return
+        }
+        const data = new FormData(event.target)
+        const review = {title: data.get('title'),rating: data.get('rating'), body: data.get('body')}
+        console.log(review)
+    }
+
     return (
         <Container>
             {loading && (
@@ -132,9 +165,7 @@ export function Detail() {
                         <h3>{product.Name}</h3>
                         <p>{product.Description}</p>
                         <p className="fs-xs">{product.ProductCode}</p>
-                        <Button variant="primary" onClick={() => setShow(true)}>
-                            Review this item
-                        </Button>
+                        <ReviewButton/>
                     </Col>
                 </Row>
             )}
@@ -144,16 +175,16 @@ export function Detail() {
                     <Modal.Title>Review {product.Name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
+                    <Form id="reviewForm" method='post' onSubmit={ handleReviewSubmit}>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label>Review Title</Form.Label>
-                            <Form.Control type="text" placeholder="This product is excellent!" />
+                            <Form.Control name='title' type="text" placeholder="This product is excellent!" />
                         </Form.Group>
                         {/* <StarRatingDisplay range={5} rating={2} readonly={true} /> */}
                         <StarRatingInput range={5} />
                         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                             <Form.Label>Review Text</Form.Label>
-                            <Form.Control as="textarea" rows={5} placeholder="Bruh! What a product!" />
+                            <Form.Control name='body' as="textarea" rows={5} placeholder="Bruh! What a product!" />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
@@ -161,7 +192,7 @@ export function Detail() {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" type='submit' onClick={handleClose}>
                         Save Changes
                     </Button>
                 </Modal.Footer>
