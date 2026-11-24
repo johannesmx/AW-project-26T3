@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Backend\controllers;
+namespace App\Backend\Controllers;
 
 use App\Backend\Config\Database;
 use App\Backend\Utilities\Validator;

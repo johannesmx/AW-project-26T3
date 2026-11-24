@@ -5,7 +5,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use App\Backend\App\App;
 use App\Backend\Controllers\ProductsController;
 use App\Backend\Controllers\SearchController;
-use App\Backend\controllers\UserController;
+use App\Backend\Controllers\UserController;
 
 $app = new App();
 
