@@ -1,70 +1,131 @@
-//import data from '../testdata/product-data.json'
+// import data from '../testdata/product-data.json'
 
 import Card from 'react-bootstrap/Card'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Badge from 'react-bootstrap/Badge'
+import Spinner from 'react-bootstrap/Spinner'
+import Alert from 'react-bootstrap/Alert'
 import { Link } from 'react-router'
 
-import { useEffect, useState } from 'react'
+import { useState, useEffect} from 'react'
 
-type ProductItem = {
-    ProductID: number,
-    ProductCode: string,
-    Name: string,
-    Brand: string,
-    Image: string
+type Item = {
+  ProductID: number
+  ProductCode: string
+  Name: string
+  Brand: string
+  Image: string
 }
 
-export function Home() {
-    const [data, setData] = useState<ProductItem[]>([])
+type ApiResponse<T> = {
+  success: boolean
+  error: string | null
+  data: T
+}
 
-    // function to fetch data from the API
-    const getData = async () => {
-        const response = await fetch('/api/products')
+const API_BASE_URL = ''
+
+export function Home() {
+  const [items, setItems] = useState<Item[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    document.title = 'Welcome to Verdictly'
+
+    const controller = new AbortController()
+
+    async function loadData() {
+      setLoading(true)
+      setError(null)
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/products`, {
+          signal: controller.signal,
+        })
+
         if (!response.ok) {
-            throw new Error('Network response was not ok')
+          throw new Error(`HTTP error: ${response.status}`)
         }
-        const itemsdata = await response.json()
-        return itemsdata
+
+        const payload: ApiResponse<Item[]> = await response.json()
+
+        if (!payload.success) {
+          throw new Error(payload.error || 'Failed to load products.')
+        }
+
+        setItems(Array.isArray(payload.data) ? payload.data : [])
+      } catch (err) {
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return
+        }
+        setError(err instanceof Error ? err.message : 'Unexpected error loading products.')
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false)
+        }
+      }
     }
 
-    useEffect( () => {
-        async function fetchData() {
-            const result = await getData()
-            setData(result)
-            document.title = "Welcome to Verdictly"
-        }
-        fetchData()
-    }, [])
+    loadData()
 
-    // sub component
-    const Items = data.map( (item) => {
-        return (
-            <Col md={3}>
-                <Card className='mb-4'>
-                    <div className='ratio ratio-1x1'>
-                    <Card.Img src={"images/" + item.Image}  variant='top' className='object-fit-cover' />
+    return () => controller.abort()
+  }, [])
+
+  return (
+    <Container fluid>
+      <h1 className="my-3">Home</h1>
+
+      {loading && (
+        <div className="d-flex align-items-center gap-2 py-4">
+          <Spinner animation="border" size="sm" role="status" />
+          <span>Loading products...</span>
+        </div>
+      )}
+
+      {!loading && error && (
+        <Alert variant="danger">
+          Could not load products: {error}
+        </Alert>
+      )}
+
+      {!loading && !error && items.length === 0 && (
+        <Alert variant="info">No products available right now.</Alert>
+      )}
+
+      {!loading && !error && items.length > 0 && (
+        <Row>
+          {items.map((item) => {
+            const displayName =
+              item.Name.length > 22 ? `${item.Name.slice(0, 22)}...` : item.Name
+
+            return (
+              <Col md={3} sm={4} xs={6} key={item.ProductID}>
+                <Card className="mb-4 h-100">
+                  <Link to={`/product/${item.ProductID}`}>
+                    <div className="ratio ratio-1x1">
+                      <Card.Img
+                        src={`/images/${item.Image}`}
+                        alt={item.Name}
+                        variant="top"
+                        className="object-fit-cover"
+                      />
                     </div>
-                    <Card.Body>
-                        <Card.Title>{item.Name.substring(0,30) + '...'}</Card.Title>
-                        {/* <p>{ item.description.substring(0,32) + '...' }</p> */}
-                        <Link className='btn btn-primary' to={ 'product/' + item.ProductID }>
-                            View
-                        </Link>
-                    </Card.Body>
+                  </Link>
+                  <Card.Body>
+                    <Card.Title title={item.Name}>{displayName}</Card.Title>
+                    <p className="mb-0">
+                      <Badge bg="secondary">{item.Brand}</Badge> {item.ProductCode}
+                    </p>
+                  </Card.Body>
                 </Card>
-            </Col>
-        )
-    })
-    return(
-        <>
-            <Container fluid>
-            <h1>Home</h1>
-                <Row>
-                    {Items}
-                </Row>
-            </Container>
-        </>
-    )
+              </Col>
+            )
+          })}
+        </Row>
+      )}
+    </Container>
+  )
 }
