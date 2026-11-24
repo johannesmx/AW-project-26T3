@@ -9,6 +9,8 @@ import { Detail } from './views/Detail'
 import { Login } from './views/Login'
 import { Register } from './views/Register'
 import { SearchResult } from './views/SearchResult'
+import { Dashboard } from './views/Dashboard'
+import { Logout } from './views/Logout'
 // components
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
@@ -28,9 +30,11 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="product/:productid" element={<Detail />} />
           <Route path="search/:query" element={ <SearchResult/> } />
+          <Route path="dashboard" element={ <Dashboard/> } />
+          <Route path="logout" element={ <Logout/> } />
         </Routes>
       </Container>
-      <Footer />
+      <Footer title="Verdictly" image='' />
     </>
   )
 }
